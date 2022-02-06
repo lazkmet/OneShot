@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LaserFire : MonoBehaviour
 {
+    public Camera mainCamera;
     public float baseDuration = 2.0f;
     public float baseCooldown = 6.0f;
     //public PowerMeter meter;
@@ -35,20 +36,22 @@ public class LaserFire : MonoBehaviour
         }
         //meter.setCooldown(currentMaxCooldown, cooldownTimer);
     }
-    private void Reset()
+    public void Reset()
     {
+        StopAllCoroutines();
         currentMaxCooldown = baseCooldown;
         currentDuration = baseDuration;
         cooldownTimer = 0;
         laserRenderer.enabled = false;
         laserCollisionHandler.enabled = false;
+        transform.rotation = Quaternion.Euler(Vector3.zero);
     }
     public void TryFire() {
         if (cooldownTimer <= 0) {
+            //stop movement
             parentScript.enabled = false;
-            targetDirection = Input.mousePosition;
-            float angle = 0;
-            //Set rotation of laser object to face mouse;
+            Vector2 targetPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            transform.up = targetPoint - (Vector2)transform.position;
             StartCoroutine("Fire");
         }
     }

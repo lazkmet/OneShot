@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public PlayerMovement player;
+    public LevelMovement currentLevel;
+    private void Awake()
     {
-        
+        FindObjects();
+        Reset();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void FindObjects() {
+        player = FindObjectOfType<PlayerMovement>();
+        currentLevel = FindObjectOfType<LevelMovement>();
+    }
+    private void Reset()
     {
-        
+        player.Reset();
+        currentLevel.Reset();
     }
 }
