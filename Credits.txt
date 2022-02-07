@@ -1,4 +1,5 @@
 Credits 
 
-Loop Background: https://www.youtube.com/watch?v=3UO-1suMbNc
+Looping Background: https://www.youtube.com/watch?v=3UO-1suMbNc
 Enemy Pathing: https://youtu.be/11ofnLOE8pw
+Sound Scripting: https://www.youtube.com/watch?v=6OT43pvUyfY

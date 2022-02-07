@@ -1,22 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //Code slightly adapted from https://www.youtube.com/watch?v=3UO-1suMbNc 
 //to use manually moving objects instead of a moving camera
 //and to loop vertically instead of horizontally
 public class LoopingBackground : MonoBehaviour
 {
-    public Camera mainCamera;
+    private Camera mainCamera;
     public float loopSpeed = 1f;
     private Vector2 screenBounds;
-    private Transform[] children;
+    private Transform[] children = { };
     public GameObject image;
+    public static LoopingBackground instance;
     public float choke = 0f;
     private Vector2 newPosition;
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(image);
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(image);
+        }
+    }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += FindCamera;
+    }
+    public void FindCamera(Scene scene, LoadSceneMode mode) {
+        mainCamera = FindObjectOfType<Camera>();
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
+        DestroyChildObjects(image);
         LoadChildObjects(image);
     }
     private void LoadChildObjects(GameObject obj) {
@@ -32,6 +54,13 @@ public class LoopingBackground : MonoBehaviour
         Destroy(clone);
         Destroy(obj.GetComponent<SpriteRenderer>());
         children = obj.GetComponentsInChildren<Transform>();
+    }
+    private void DestroyChildObjects(GameObject obj){
+        foreach (Transform child in children) {
+            if (child != children[0]) {
+                Destroy(child.gameObject);
+            }
+        }
     }
     private void Update()
     {
@@ -65,5 +94,9 @@ public class LoopingBackground : MonoBehaviour
                 lastChild.transform.position = new Vector3(firstChild.transform.position.x, firstChild.transform.position.y - objHeight, firstChild.transform.position.z);
             }
         }
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= FindCamera;
     }
 }

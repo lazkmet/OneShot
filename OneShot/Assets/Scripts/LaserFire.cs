@@ -68,6 +68,7 @@ public class LaserFire : MonoBehaviour
         currentTime = 0.02f * currentDuration;
         float width = 0;
         laserRenderer.enabled = true;
+        FindObjectOfType<AudioManager>().Play("Laser Sustain");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime) {
             width = Mathf.Lerp(0, laserMaxWidth, timer / currentTime);
             laserRenderer.widthMultiplier = width;
@@ -84,6 +85,8 @@ public class LaserFire : MonoBehaviour
         currentTime = 0.18f * currentDuration;
         laserCollisionHandler.enabled = false;
         width = laserMaxWidth;
+        FindObjectOfType<AudioManager>().Stop("Laser Sustain");
+        FindObjectOfType<AudioManager>().Play("Laser Decay");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime)
         {
             width = Mathf.Lerp(laserMaxWidth, 0, timer / currentTime);
