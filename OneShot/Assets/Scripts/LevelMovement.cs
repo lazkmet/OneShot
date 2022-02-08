@@ -8,10 +8,12 @@ public class LevelMovement : MonoBehaviour
     public float levelLength;
     public float speedMultiplier = 1f;
     private Vector3 startPos;
+    private EnemySpawnpoint[] enemySpawns;
     private void Awake()
     {
         gameObject.SetActive(true);
         startPos = transform.position;
+        enemySpawns = GetComponentsInChildren<EnemySpawnpoint>();
         Reset();
     }
 
@@ -27,5 +29,11 @@ public class LevelMovement : MonoBehaviour
     {
         speedMultiplier = 1;
         transform.position = startPos;
+    }
+    public void DisableEnemies() {
+        EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
+        foreach (EnemyScript e in enemies) {
+            e.Disable();
+        }
     }
 }
