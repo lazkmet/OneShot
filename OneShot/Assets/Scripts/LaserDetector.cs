@@ -6,8 +6,14 @@ public class LaserDetector : MonoBehaviour
 {
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
-            collision.gameObject.GetComponent<EnemyScript>().Hit();
+        EnemyScript script;
+        if (TryGetComponent<EnemyScript>(out script))
+        {
+            script.Hit();
         }
+    }
+    private void OnParticleCollision(GameObject other)
+    {
+        
     }
 }

@@ -76,4 +76,7 @@ public class BossEnemy : EnemyScript
         //Enable collider
         stunned = false;
     }
+    public override void Disable() {
+        IdleForSeconds(Mathf.Infinity);
+    }
 }

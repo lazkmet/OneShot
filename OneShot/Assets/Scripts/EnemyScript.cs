@@ -4,23 +4,21 @@ using UnityEngine;
 
 public abstract class EnemyScript : MonoBehaviour
 {
-    private Transform target;
+    protected Transform target;
     public int pointValue;
+    public bool disabled;
     
     private void Awake()
     {
         target = FindObjectOfType<PlayerMovement>().gameObject.transform;
-    }
-    private void Update()
-    {
-        
+        disabled = false;
     }
     public virtual void Hit() {
         FindObjectOfType<GameManager>().AddPoints(pointValue);
         Destroy(this.gameObject);
     }
-    public void Disable()
+    public virtual void Disable()
     {
-        
+        disabled = true;
     }
 }
