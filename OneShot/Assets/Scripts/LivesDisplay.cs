@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class LivesDisplay : MonoBehaviour
 {
-    public Sprite brokenBox;
-    public Sprite normalBox;
+    public Sprite life;
     private int currentChildren = 0;
-    private Image[] lifeImages;
+    private Image[] lifeImages = { };
 
-    private void Start()
+    private void Awake()
     {
         currentChildren = this.gameObject.transform.childCount;
         lifeImages = new Image[currentChildren];
@@ -21,7 +20,7 @@ public class LivesDisplay : MonoBehaviour
     public void UpdateLives(int currentLives = 0)
     {
         for (int i = 0; i < lifeImages.Length; i++){
-            lifeImages[i].sprite = (i < currentLives) ? normalBox : brokenBox;
+            lifeImages[i].sprite = (i < currentLives) ? life : null;
         }
     }
 }

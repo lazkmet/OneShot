@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class LaserDetector : MonoBehaviour
 {
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        EnemyScript script;
-        if (TryGetComponent<EnemyScript>(out script))
-        {
-            script.Hit();
+        if (enabled == true) {
+            EnemyScript script;
+            if (other.gameObject.TryGetComponent(out script))
+            {
+                script.Hit();
+            }
         }
-    }
-    private void OnParticleCollision(GameObject other)
-    {
-        
     }
 }

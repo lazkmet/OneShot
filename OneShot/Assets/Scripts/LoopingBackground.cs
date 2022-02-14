@@ -83,13 +83,11 @@ public class LoopingBackground : MonoBehaviour
             float objHeight = lastChild.GetComponent<SpriteRenderer>().bounds.size.y - choke;
             if (mainCamera.transform.position.y + screenBounds.y > lastChild.transform.position.y + objHeight)
             {
-                print("loopUp");
                 firstChild.transform.SetAsLastSibling();
                 firstChild.transform.position = new Vector3(lastChild.transform.position.x, lastChild.transform.position.y + objHeight, lastChild.transform.position.z);
             }
             else if (mainCamera.transform.position.y - screenBounds.y < firstChild.transform.position.y - choke)
             {
-                print("loopDown");
                 lastChild.transform.SetAsFirstSibling();
                 lastChild.transform.position = new Vector3(firstChild.transform.position.x, firstChild.transform.position.y - objHeight, firstChild.transform.position.z);
             }

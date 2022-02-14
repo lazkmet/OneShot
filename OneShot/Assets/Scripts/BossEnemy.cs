@@ -9,10 +9,10 @@ public class BossEnemy : EnemyScript
     private behavior currentState = behavior.IDLE;
     private behavior previousAttack;
     private float idleCountdown = 0;
-    private bool stunned = false;
+    private bool stunned;
     private void Start()
     {
-       //set behavior to idle, freeze screen motion
+        stunned = false;
     }
     public override void Hit()
     {
@@ -78,5 +78,10 @@ public class BossEnemy : EnemyScript
     }
     public override void Disable() {
         IdleForSeconds(Mathf.Infinity);
+    }
+    public override void Enable()
+    {
+        IdleForSeconds(0);
+        FindObjectOfType<LevelMovement>().speedMultiplier = 0;
     }
 }

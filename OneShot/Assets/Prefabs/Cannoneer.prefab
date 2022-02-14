@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3946914075033166570}
   - component: {fileID: 7217502409127541100}
   - component: {fileID: 6904450521062267979}
-  m_Layer: 0
-  m_Name: Emission Point
+  m_Layer: 8
+  m_Name: CannoneerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,15 +40,15 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041191790565007455}
   serializedVersion: 7
-  lengthInSec: 5
-  simulationSpeed: 0.25
-  stopAction: 1
-  cullingMode: 0
+  lengthInSec: 3
+  simulationSpeed: 1
+  stopAction: 2
+  cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 16
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -864,9 +864,9 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 3
-      minScalar: 0
+      minMaxState: 0
+      scalar: 0.6
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1133,7 +1133,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -1243,7 +1243,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7853982
+      scalar: 2.0943952
       minScalar: 0.7853982
       maxCurve:
         serializedVersion: 2
@@ -3783,7 +3783,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 704
+      m_Bits: 4800
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4778,7 +4778,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4813,8 +4813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5250982721770860414}
-  - component: {fileID: 2371569884253261035}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4837,23 +4836,6 @@ Transform:
   m_Father: {fileID: 6593228187099528646}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2371569884253261035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2870941905154677790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b1ff12d9b71d440a80e5d879937bf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointValue: 300
-  disabled: 0
-  iris: {fileID: 6245488675809052744}
-  emitter: {fileID: 2041191790565007455}
-  eyeSize: {x: 0.875, y: 0.625}
 --- !u!1 &3436308217588881255
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,7 +4845,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6593228187099528646}
-  m_Layer: 0
+  - component: {fileID: 555002602}
+  - component: {fileID: 555002603}
+  - component: {fileID: 555002601}
+  m_Layer: 8
   m_Name: Cannoneer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4886,6 +4871,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &555002602
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436308217588881255}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &555002603
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436308217588881255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.7
+--- !u!114 &555002601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436308217588881255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b1ff12d9b71d440a80e5d879937bf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointValue: 300
+  disabled: 0
+  cannon: {fileID: 2870941905154677790}
+  iris: {fileID: 6245488675809052744}
+  emitter: {fileID: 7217502409127541100}
+  eyeSize: {x: 0.875, y: 0.625}
 --- !u!1 &4581955292605906853
 GameObject:
   m_ObjectHideFlags: 0
@@ -4895,8 +4935,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8089946482260435730}
-  - component: {fileID: 2061203533037957952}
-  - component: {fileID: 613005299256503833}
   m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
@@ -4921,43 +4959,6 @@ Transform:
   m_Father: {fileID: 6593228187099528646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2061203533037957952
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581955292605906853}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.4
---- !u!50 &613005299256503833
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581955292605906853}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &5682864752956165228
 GameObject:
   m_ObjectHideFlags: 0
@@ -5050,7 +5051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1019352318439171248}
   - component: {fileID: 6658288184355614367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

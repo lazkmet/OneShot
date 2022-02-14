@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     public void RestartLevel() {
         points = 0;
         player.Reset();
+        EnemyScript[] activeEnemies = FindObjectsOfType<EnemyScript>();
+        foreach (EnemyScript e in activeEnemies) {
+            Destroy(e.gameObject);
+        }
         currentLevel.Reset();
         menus.Reset();
         menus.UpdateDisplay(points, currentLives);

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class EnemySpawnpoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject enemyPrefab;
+    public virtual void SpawnEnemy()
     {
-        
+        if (enabled) {
+            Instantiate(enemyPrefab, gameObject.transform);
+            enabled = false;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(gameObject.transform.position, 0.5f);
     }
 }

@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
     public LivesDisplay livesDisplay;
-    public TextMesh[] pointsDisplays = { };
+    public TextMeshProUGUI[] pointsDisplays = { };
     public Canvas[] screens;
     public bool pausable;
     public Canvas pauseScreen;
-    public PlayerMovement player;
+    //public PlayerMovement player; removing because I don't think it's used?
     public bool isPaused { get; private set; }
     public void DeactivateAll() {
         for (int i = 0; i < screens.Length; i++)
@@ -65,10 +66,10 @@ public class MenuManager : MonoBehaviour
     public void UpdateDisplay(int points = -1, int lives = -1)
     {
         if (!(lives < 0)) {
-            livesDisplay.UpdateLives(0);
+            livesDisplay.UpdateLives(lives);
         }
         if (!(points < 0)) {
-            foreach (TextMesh p in pointsDisplays) {
+            foreach (TextMeshProUGUI p in pointsDisplays) {
                 p.text = points.ToString();
             }
         }

@@ -11,14 +11,12 @@ public abstract class EnemyScript : MonoBehaviour
     private void Awake()
     {
         target = FindObjectOfType<PlayerMovement>().gameObject.transform;
-        disabled = false;
+        Disable();
     }
     public virtual void Hit() {
         FindObjectOfType<GameManager>().AddPoints(pointValue);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
-    public virtual void Disable()
-    {
-        disabled = true;
-    }
+    public abstract void Disable();
+    public abstract void Enable();
 }

@@ -8,6 +8,7 @@ public class LaserFire : MonoBehaviour
     public Camera mainCamera;
     public float baseDuration = 2.0f;
     public float baseCooldown = 6.0f;
+    public Collider2D particleDetector;
     //public PowerMeter meter;
     private Vector3 targetDirection;
     private float currentMaxCooldown = 0;
@@ -79,11 +80,13 @@ public class LaserFire : MonoBehaviour
         //Hold (Activate Detection)
         currentTime = 0.8f * currentDuration;
         laserCollisionHandler.enabled = true;
+        particleDetector.enabled = true;
         yield return new WaitForSeconds(currentTime);
 
         //Retract(Deactivate Detection)
         currentTime = 0.18f * currentDuration;
         laserCollisionHandler.enabled = false;
+        particleDetector.enabled = false;
         width = laserMaxWidth;
         FindObjectOfType<AudioManager>().Stop("Laser Sustain");
         FindObjectOfType<AudioManager>().Play("Laser Decay");
