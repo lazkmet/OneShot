@@ -8,13 +8,16 @@ public class LaserFire : MonoBehaviour
     public Camera mainCamera;
     public float baseDuration = 2.0f;
     public float baseCooldown = 6.0f;
+    public float minCooldown = 0f;
+    public float reductionPerShot = 0.1f;
     public Collider2D particleDetector;
-    //public PowerMeter meter;
+    public PowerMeter meter { get; private set; }
     private Vector3 targetDirection;
     private float currentMaxCooldown = 0;
     private float cooldownTimer = 0;
     private float currentDuration = 0;
     private float laserMaxWidth;
+    private bool chargeHidden;
     private PlayerMovement parentScript;
     private LineRenderer laserRenderer;
     private LaserDetector laserCollisionHandler;
@@ -23,6 +26,7 @@ public class LaserFire : MonoBehaviour
         parentScript = GetComponentInParent<PlayerMovement>();
         laserRenderer = GetComponent<LineRenderer>();
         laserCollisionHandler = GetComponent<LaserDetector>();
+        meter = FindObjectOfType<PowerMeter>();
         laserMaxWidth = laserRenderer.widthMultiplier;
         Reset();
     }
@@ -35,7 +39,9 @@ public class LaserFire : MonoBehaviour
         else { 
             cooldownTimer = 0; 
         }
-        //meter.setCooldown(currentMaxCooldown, cooldownTimer);
+        if (!chargeHidden) {
+            meter.setCooldown(currentMaxCooldown, cooldownTimer);
+        }
     }
     public void Reset()
     {
@@ -45,6 +51,9 @@ public class LaserFire : MonoBehaviour
         cooldownTimer = 0;
         laserRenderer.enabled = false;
         laserCollisionHandler.enabled = false;
+        particleDetector.enabled = false;
+        chargeHidden = false;
+        FindObjectOfType<AudioManager>().Stop("Laser Sustain");
         transform.rotation = Quaternion.Euler(Vector3.zero);
     }
     public void TryFire() {
@@ -53,8 +62,19 @@ public class LaserFire : MonoBehaviour
             parentScript.enabled = false;
             Vector2 targetPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             transform.up = targetPoint - (Vector2)transform.position;
+            ReduceCooldown(reductionPerShot);
             StartCoroutine("Fire");
         }
+    }
+    public void ReduceCooldown(float reduction) {
+        if (currentMaxCooldown - reduction > minCooldown)
+        {
+            currentMaxCooldown -= reduction;
+        }
+        else {
+            currentMaxCooldown = minCooldown;
+        }
+
     }
     private IEnumerator Fire() {
         //Firing duration (currentDuration) is split into 4 parts: Delay, Expand, Hold, Retract.
@@ -100,5 +120,16 @@ public class LaserFire : MonoBehaviour
         laserRenderer.enabled = false;
         cooldownTimer = currentMaxCooldown;
         parentScript.enabled = true;
+    }
+    public void HideCharge(bool hide = true)
+    {
+        if (hide)
+        {
+            chargeHidden = true;
+            meter.setCooldown(currentMaxCooldown, currentMaxCooldown);
+        }
+        else { //show
+            chargeHidden = false;
+        }
     }
 }

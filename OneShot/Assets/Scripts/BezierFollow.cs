@@ -48,6 +48,7 @@ public class BezierFollow : MonoBehaviour
             p1 = routes[routeNum].controlPoints[1].position;
             p2 = routes[routeNum].controlPoints[2].position;
             p3 = routes[routeNum].controlPoints[3].position;
+
             tParam += Time.deltaTime * speedModifier;
 
             objectPosition = Mathf.Pow(1 - tParam, 3) * p0 + 3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 + 3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 + Mathf.Pow(tParam, 3) * p3;

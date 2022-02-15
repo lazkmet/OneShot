@@ -8,15 +8,16 @@ public class LevelMovement : MonoBehaviour
     public float levelLength;
     public float speedMultiplier = 1f;
     public float spawnY = 0f;
+    private ActivationZone stupidZone;
     private Vector3 startPos;
-    private EnemySpawnpoint[] enemySpawns;
+    private EnemySpawnpoint[] enemySpawns = { };
     private int currentSpawnToCheck = 0;
     private void Awake()
     {
         gameObject.SetActive(true);
         startPos = transform.position;
         enemySpawns = GetComponentsInChildren<EnemySpawnpoint>();
-        Reset();
+        stupidZone = FindObjectOfType<ActivationZone>();
     }
 
     void Update()
@@ -37,13 +38,20 @@ public class LevelMovement : MonoBehaviour
     }
     public void Reset()
     {
+        EnemyScript[] activeEnemies = FindObjectsOfType<EnemyScript>();
+        foreach (EnemyScript e in activeEnemies)
+        {
+            Destroy(e.gameObject);
+        }
         speedMultiplier = 1;
         transform.position = startPos;
+        stupidZone.GetComponentInParent<Collider2D>().enabled = true;
         foreach (EnemySpawnpoint s in enemySpawns) {
             s.enabled = true;
         }
     }
     public void DisableEnemies() {
+        stupidZone.GetComponentInParent<Collider2D>().enabled = false;
         EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
         foreach (EnemyScript e in enemies) {
             e.Disable();

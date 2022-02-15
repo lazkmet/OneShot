@@ -56,7 +56,11 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.Stop();
+        try
+        {
+            s.source.Stop();
+        }
+        catch (System.NullReferenceException) { }
     }
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int points;
+    private int maxPoints = 0; 
     public PlayerMovement player;
     public LevelMovement currentLevel;
     private MenuManager menus;
@@ -16,6 +17,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         FindObjects();
+    }
+    private void Start()
+    {
         Reset();
     }
     private void FindObjects() {
@@ -26,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Reset()
     {
         currentLives = maxLives;
+        maxPoints = 0;
         RestartLevel();
     }
     public void playerHit() {
@@ -40,19 +45,19 @@ public class GameManager : MonoBehaviour
     public void RestartLevel() {
         points = 0;
         player.Reset();
-        EnemyScript[] activeEnemies = FindObjectsOfType<EnemyScript>();
-        foreach (EnemyScript e in activeEnemies) {
-            Destroy(e.gameObject);
-        }
         currentLevel.Reset();
         menus.Reset();
         menus.UpdateDisplay(points, currentLives);
     }
     public void AddPoints(int amount) {
         points += amount;
+        if (points > maxPoints) {
+            maxPoints = points;
+        }
         menus.UpdateDisplay(points);
     }
     private void GameOver() {
+        menus.UpdateDisplay(maxPoints);
         menus.SetActiveScreen(gameOverIndex);
         currentLevel.speedMultiplier = 0;
         currentLevel.DisableEnemies();

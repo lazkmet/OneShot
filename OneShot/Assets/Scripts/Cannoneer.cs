@@ -36,7 +36,7 @@ public class Cannoneer : EnemyScript
         {
             emitter.gameObject.transform.localPosition = iris.transform.localPosition;
         }
-        catch (System.NullReferenceException) { }
+        catch (System.Exception) { }
     }
     public override void Disable()
     { 

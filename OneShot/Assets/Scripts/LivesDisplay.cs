@@ -20,7 +20,13 @@ public class LivesDisplay : MonoBehaviour
     public void UpdateLives(int currentLives = 0)
     {
         for (int i = 0; i < lifeImages.Length; i++){
-            lifeImages[i].sprite = (i < currentLives) ? life : null;
+            if (i < currentLives) {
+                lifeImages[i].enabled = true;
+                lifeImages[i].sprite = life;
+            }
+            else {
+                lifeImages[i].enabled = false;
+            }
         }
     }
 }
