@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public bool delayedWin = false;
     private bool suicide = false;
     public TextMeshProUGUI sacrificeMessage;
+    //private MouseFollow mouse;
     private void Awake()
     {
         FindObjects();
@@ -32,11 +33,13 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<PlayerMovement>();
         currentLevel = FindObjectOfType<LevelMovement>();
         menus = GetComponent<MenuManager>();
+        //mouse = FindObjectOfType<MouseFollow>();
     }
     public void Reset()
     {
         currentLives = maxLives;
         maxPoints = 0;
+        //mouse.Show();
         RestartLevel();
     }
     public void playerHit() {
@@ -70,10 +73,10 @@ public class GameManager : MonoBehaviour
         menus.UpdateDisplay(points);
     }
     public void Victory() {
+        //mouse.Hide();
         menus.UpdateDisplay(maxPoints);
         if (suicide)
         {
-            print("win by suicide");
             sacrificeMessage.gameObject.SetActive(true);
         }
         else { 
@@ -84,6 +87,7 @@ public class GameManager : MonoBehaviour
         player.SetSpriteEnabled(false);
     }
     private void GameOver() {
+        //mouse.Hide();
         menus.UpdateDisplay(maxPoints);
         menus.SetActiveScreen(gameOverIndex);
         currentLevel.speedMultiplier = 0;

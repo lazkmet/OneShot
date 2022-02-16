@@ -2,37 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BezierFollow : MonoBehaviour
+public class OneTimeFollow : BezierFollow
 {
-    public float speedModifier = 0.5f;
-
-    protected BezierPath[] routes;
-
-    protected int routeToGo;
-
-    protected float tParam;
-
-    protected Vector2 objectPosition;
-
-    protected bool coroutineAllowed;
-
-    void Start()
-    {
-        routeToGo = 0;
-        tParam = 0f;
-        speedModifier = 0.5f;
-        coroutineAllowed = true;
-    }
-
-    void Update()
-    {
-        if (coroutineAllowed && routes.Length > 0)
-        {
-            StartCoroutine(GoByTheRoute(routeToGo));
-        }
-    }
-
-    protected virtual IEnumerator GoByTheRoute(int routeNum)
+    public BezierFollow permanentPath;
+    protected override IEnumerator GoByTheRoute(int routeNum)
     {
         coroutineAllowed = false;
 
@@ -62,13 +35,11 @@ public class BezierFollow : MonoBehaviour
 
         if (routeToGo > routes.Length - 1)
         {
-            routeToGo = 0;
+            permanentPath.enabled = true;
+            Destroy(this);        
         }
 
         coroutineAllowed = true;
 
-    }
-    public void SetRoutes(BezierPath[] newRoutes){
-        routes = newRoutes;
     }
 }

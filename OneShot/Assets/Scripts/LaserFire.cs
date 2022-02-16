@@ -11,7 +11,7 @@ public class LaserFire : MonoBehaviour
     public float minCooldown = 0f;
     public float reductionPerShot = 0.1f;
     public Collider2D particleDetector;
-    //public PowerMeter meter { get; private set; }
+    public PowerMeter meter { get; private set; }
     private Vector3 targetDirection;
     private float currentMaxCooldown = 0;
     private float cooldownTimer = 0;
@@ -21,12 +21,14 @@ public class LaserFire : MonoBehaviour
     private PlayerMovement parentScript;
     private LineRenderer laserRenderer;
     private LaserDetector laserCollisionHandler;
+    //private MouseFollow mouse;
     private void Awake()
     {
         parentScript = GetComponentInParent<PlayerMovement>();
         laserRenderer = GetComponent<LineRenderer>();
         laserCollisionHandler = GetComponent<LaserDetector>();
-        //meter = FindObjectOfType<PowerMeter>();
+        meter = FindObjectOfType<PowerMeter>();
+        //mouse = FindObjectOfType<MouseFollow>();
         laserMaxWidth = laserRenderer.widthMultiplier;
         Reset();
     }
@@ -40,7 +42,7 @@ public class LaserFire : MonoBehaviour
             cooldownTimer = 0; 
         }
         if (!chargeHidden) {
-            //meter.setCooldown(currentMaxCooldown, cooldownTimer);
+            meter.setCooldown(currentMaxCooldown, cooldownTimer);
         }
     }
     public void Reset()
@@ -53,6 +55,7 @@ public class LaserFire : MonoBehaviour
         laserCollisionHandler.enabled = false;
         particleDetector.enabled = false;
         chargeHidden = false;
+        //mouse.Show;
         FindObjectOfType<AudioManager>().Stop("Laser Sustain");
         transform.rotation = Quaternion.Euler(Vector3.zero);
     }
@@ -89,6 +92,7 @@ public class LaserFire : MonoBehaviour
         currentTime = 0.02f * currentDuration;
         float width = 0;
         laserRenderer.enabled = true;
+        //mouse.Hide();
         FindObjectOfType<AudioManager>().Play("Laser Sustain");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime) {
             width = Mathf.Lerp(0, laserMaxWidth, timer / currentTime);
@@ -119,6 +123,7 @@ public class LaserFire : MonoBehaviour
         laserRenderer.widthMultiplier = 0;
         laserRenderer.enabled = false;
         cooldownTimer = currentMaxCooldown;
+       //mouse.Show();
         parentScript.enabled = true;
     }
     public void HideCharge(bool hide = true)

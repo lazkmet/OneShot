@@ -111,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         laser.Reset();
         laser.HideCharge();
         SetSpriteEnabled(false);
+        //FindObjectOfType<MouseFollow>().Hide();
         StartCoroutine("Explode");
     }
     private IEnumerator Explode() {

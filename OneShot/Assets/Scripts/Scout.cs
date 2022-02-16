@@ -23,10 +23,13 @@ public class Scout : EnemyScript
     }
     public override void Hit()
     {
-        emitter.Stop();
-        ParticleSystem.EmissionModule em = emitter.emission;
-        em.enabled = false;
-        emitter.transform.SetParent(gameObject.transform.parent);
+        try {
+            emitter.Stop();
+            ParticleSystem.EmissionModule em = emitter.emission;
+            em.enabled = false;
+            emitter.transform.SetParent(gameObject.transform.parent);
+        }
+        catch (System.Exception) {}
         base.Hit();
     }
 }

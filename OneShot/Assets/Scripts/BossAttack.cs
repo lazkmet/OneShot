@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class BossAttack : MonoBehaviour
 {
-    BossEnemy boss;
-    private bool attacking = false;
-    private void Awake()
+    protected BossEnemy boss;
+    public float idleSeconds = 0f;
+    protected virtual void Awake()
     {
         boss = GetComponentInParent<BossEnemy>();
         this.enabled = false;

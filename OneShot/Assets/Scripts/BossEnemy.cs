@@ -13,12 +13,14 @@ public class BossEnemy : EnemyScript
     public GameObject bigExplosion;
     public SpriteRenderer shield;
     public GameObject sprite;
+    public SpriteRenderer hurtSprite;
     private GameManager manager;
     private enum behavior { IDLE, ATTACKING}
     private behavior currentState;
     private int previousAttack;
     private float idleCountdown = 0;
-    private bool stunned;
+    [HideInInspector]
+    public bool stunned;
  
     private void Start()
     {
@@ -30,6 +32,7 @@ public class BossEnemy : EnemyScript
             attack.enabled = false;
         }
         previousAttack = -1;
+        currentLives = maxLives;
     }
     public override void Hit()
     {
@@ -38,9 +41,9 @@ public class BossEnemy : EnemyScript
                 TryStun(iFrames);
             }
             else {
-                stunned = true;
+                TryStun(iFrames);
+                StopAllCoroutines();
                 StartCoroutine("Die");
-                manager.AddPoints(pointValue);
             }
         }  
     }
@@ -49,7 +52,9 @@ public class BossEnemy : EnemyScript
         switch (currentState)
         {
             case behavior.IDLE:
-                shield.enabled = true;
+                if (!stunned) {
+                    shield.enabled = true;
+                }
                 if (idleCountdown > 0)
                 {
                     idleCountdown -= Time.deltaTime;
@@ -86,7 +91,7 @@ public class BossEnemy : EnemyScript
             {
                 nextAttack = Random.Range(0, attacks.Length);
             }
-            while (nextAttack != previousAttack);
+            while (nextAttack == previousAttack);
         }
         else {
             nextAttack = 0;
@@ -102,15 +107,18 @@ public class BossEnemy : EnemyScript
         }
         currentState = behavior.ATTACKING;
     }
-    public void TryStun(float aInvincible = 0) {
-        stunned = true;
+    public void TryStun(float aInvincible = 0) { 
         StartCoroutine("Stun", aInvincible);
     }
     private IEnumerator Stun(float aHitstun) {
+        stunned = true;
+        hurtSprite.enabled = true;
         foreach (BossAttack b in attacks) {
             b.Stun();
         }
-        yield return new WaitForSeconds(aHitstun);
+        yield return new WaitForSeconds(aHitstun / 3);
+        hurtSprite.enabled = false;
+        yield return new WaitForSeconds(aHitstun * 2 / 3);
         foreach (BossAttack b in attacks)
         {
             b.Unstun();
@@ -141,7 +149,7 @@ public class BossEnemy : EnemyScript
                 door.transform.localScale = currentScale;
             }
             currentTime += Time.deltaTime;
-            yield return null;
+            yield return new WaitWhile(() => stunned == true);
         }
         foreach (GameObject door in doors)
         {
@@ -152,6 +160,14 @@ public class BossEnemy : EnemyScript
     }
     public IEnumerator Die() {
         AudioManager soundManager = FindObjectOfType<AudioManager>();
+
+        //Destroy all spawned scouts
+        Scout[] bossEnemies = FindObjectsOfType<Scout>();
+        foreach (Scout s in bossEnemies) {
+            Destroy(s.emitter);
+            Instantiate(explosion, s.gameObject.transform.position, Quaternion.identity);
+            s.Hit();
+        }
 
         //Spawn a large number of little explosions
         int numExplosions = Random.Range(25, 40);
@@ -185,7 +201,7 @@ public class BossEnemy : EnemyScript
         }
 
         Instantiate(bigExplosion, gameObject.transform.position, Quaternion.identity);
-        
+        manager.AddPoints(pointValue);
         sprite.SetActive(false);
         gameObject.GetComponent<Collider2D>().enabled = false;
         //play big explosion sound
