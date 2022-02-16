@@ -173,6 +173,8 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   baseDuration: 1
   baseCooldown: 2
+  minCooldown: 0
+  reductionPerShot: 0.1
   particleDetector: {fileID: 4892638179638163077}
 --- !u!61 &899136230892890923
 BoxCollider2D:
@@ -400,6 +402,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   laser: {fileID: 1500958307022187903}
+  spriteParent: {fileID: 5177988699388961509}
+  deathEffect: {fileID: 3990344485993317931, guid: 384c8df3d1c74a342bca1b0ff7ef7c11, type: 3}
   speedMultiplier: 1
 --- !u!50 &1812755514
 Rigidbody2D:

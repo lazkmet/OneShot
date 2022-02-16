@@ -11,7 +11,7 @@ public class LaserFire : MonoBehaviour
     public float minCooldown = 0f;
     public float reductionPerShot = 0.1f;
     public Collider2D particleDetector;
-    public PowerMeter meter { get; private set; }
+    //public PowerMeter meter { get; private set; }
     private Vector3 targetDirection;
     private float currentMaxCooldown = 0;
     private float cooldownTimer = 0;
@@ -26,7 +26,7 @@ public class LaserFire : MonoBehaviour
         parentScript = GetComponentInParent<PlayerMovement>();
         laserRenderer = GetComponent<LineRenderer>();
         laserCollisionHandler = GetComponent<LaserDetector>();
-        meter = FindObjectOfType<PowerMeter>();
+        //meter = FindObjectOfType<PowerMeter>();
         laserMaxWidth = laserRenderer.widthMultiplier;
         Reset();
     }
@@ -40,7 +40,7 @@ public class LaserFire : MonoBehaviour
             cooldownTimer = 0; 
         }
         if (!chargeHidden) {
-            meter.setCooldown(currentMaxCooldown, cooldownTimer);
+            //meter.setCooldown(currentMaxCooldown, cooldownTimer);
         }
     }
     public void Reset()
@@ -126,7 +126,7 @@ public class LaserFire : MonoBehaviour
         if (hide)
         {
             chargeHidden = true;
-            meter.setCooldown(currentMaxCooldown, currentMaxCooldown);
+            //meter.setCooldown(currentMaxCooldown, currentMaxCooldown);
         }
         else { //show
             chargeHidden = false;

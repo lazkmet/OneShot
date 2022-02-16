@@ -4,25 +4,52 @@ using UnityEngine;
 
 public class BossEnemy : EnemyScript
 {
-    public float hitstun = 0f;
-    private enum behavior { IDLE, WAVE, LASER, HOMING, SPAWN }
-    private behavior currentState = behavior.IDLE;
-    private behavior previousAttack;
+    public int maxLives = 3;
+    private int currentLives;
+    public float iFrames = 0f;
+    public GameObject[] doors;
+    public BossAttack[] attacks = { };
+    public GameObject explosion;
+    public GameObject bigExplosion;
+    public SpriteRenderer shield;
+    public GameObject sprite;
+    private GameManager manager;
+    private enum behavior { IDLE, ATTACKING}
+    private behavior currentState;
+    private int previousAttack;
     private float idleCountdown = 0;
     private bool stunned;
+ 
     private void Start()
     {
         stunned = false;
+        shield.enabled = true;
+        manager = FindObjectOfType<GameManager>();
+        foreach (BossAttack attack in attacks)
+        {
+            attack.enabled = false;
+        }
+        previousAttack = -1;
     }
     public override void Hit()
     {
-        
+        if (!shield.enabled && !stunned) {
+            if (--currentLives > 0) {
+                TryStun(iFrames);
+            }
+            else {
+                stunned = true;
+                StartCoroutine("Die");
+                manager.AddPoints(pointValue);
+            }
+        }  
     }
     private void Update()
     {
         switch (currentState)
         {
             case behavior.IDLE:
+                shield.enabled = true;
                 if (idleCountdown > 0)
                 {
                     idleCountdown -= Time.deltaTime;
@@ -32,13 +59,7 @@ public class BossEnemy : EnemyScript
                     SelectNextAttack();
                 }
                 break;
-            case behavior.WAVE:
-                break;
-            case behavior.LASER:
-                break;
-            case behavior.HOMING:
-                break;
-            case behavior.SPAWN:
+            case behavior.ATTACKING:
                 break;
             default:
                 print("broken behavior from idiot programmer");
@@ -58,30 +79,118 @@ public class BossEnemy : EnemyScript
         }
     }
     private void SelectNextAttack() {
-        int ignore = (int)previousAttack;
         int nextAttack;
-        do {
-            nextAttack = Random.Range((int)behavior.WAVE, (int)behavior.SPAWN + 1);
+        if (attacks.Length > 1)
+        {
+            do
+            {
+                nextAttack = Random.Range(0, attacks.Length);
+            }
+            while (nextAttack != previousAttack);
         }
-        while (nextAttack != ignore);
-        currentState = (behavior)nextAttack;
+        else {
+            nextAttack = 0;
+        }
+        previousAttack = nextAttack;
+        try {
+            shield.enabled = false;
+            attacks[nextAttack].enabled = true;
+        }
+        catch (System.Exception) {
+            print("Error: Tried to reference nonexistent behavior");
+            Disable();
+        }
+        currentState = behavior.ATTACKING;
     }
-    public void TryStun(float aHitstun = 0) {
+    public void TryStun(float aInvincible = 0) {
         stunned = true;
-        //Disable collider
-        StartCoroutine("Stun", aHitstun);
+        StartCoroutine("Stun", aInvincible);
     }
     private IEnumerator Stun(float aHitstun) {
+        foreach (BossAttack b in attacks) {
+            b.Stun();
+        }
         yield return new WaitForSeconds(aHitstun);
-        //Enable collider
+        foreach (BossAttack b in attacks)
+        {
+            b.Unstun();
+        }
         stunned = false;
     }
     public override void Disable() {
-        IdleForSeconds(Mathf.Infinity);
+        disabled = true;
+        IdleForSeconds(float.MaxValue);
     }
     public override void Enable()
     {
+        StartCoroutine("DelayedStart");
+    }
+    public IEnumerator DelayedStart() {
+        yield return new WaitForSeconds(2);
+        disabled = false;
         IdleForSeconds(0);
-        FindObjectOfType<LevelMovement>().speedMultiplier = 0;
+        print("startFirstAttack");
+        //FindObjectOfType<LevelMovement>().speedMultiplier = 0; Unnecessary if boss is at end of level
+    }
+    public IEnumerator OpenDoors(bool opening = true) {
+        float currentTime = 0f;
+        while (currentTime < 0.75f) {
+            foreach (GameObject door in doors) {
+                Vector3 currentScale = door.transform.localScale;
+                currentScale.y = opening ? Mathf.Lerp(0, 1, currentTime / 0.75f) : Mathf.Lerp(1, 0, currentTime / 0.75f);
+                door.transform.localScale = currentScale;
+            }
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        foreach (GameObject door in doors)
+        {
+            Vector3 currentScale = door.transform.localScale;
+            currentScale.y = opening ? 1 : 0;
+            door.transform.localScale = currentScale;
+        }
+    }
+    public IEnumerator Die() {
+        AudioManager soundManager = FindObjectOfType<AudioManager>();
+
+        //Spawn a large number of little explosions
+        int numExplosions = Random.Range(25, 40);
+        float[] delays = new float[Random.Range(6,10)];
+        for (int i = 0; i < delays.Length; i++) {
+            delays[i] = Random.Range(0, 2.5f);
+        }
+        manager.delayedWin = true;
+        for (int i = 0; i < numExplosions; i++) {
+            Vector2 directionToAdd = Random.insideUnitCircle * 4;
+            if (directionToAdd.y > 0) {
+                directionToAdd.y = directionToAdd.y * -1;
+            }
+            GameObject newExp = Instantiate(explosion, ((Vector2)gameObject.transform.position + directionToAdd), Quaternion.identity);
+            ParticleSystem[] systems = newExp.GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem p in systems) {
+                ParticleSystem.MainModule expStats = p.main;
+                expStats.startDelay = Random.Range(0, 2.5f);
+            }
+            print("Created Explosion");
+        }
+        for (float time = 0; time < 2.6; time += Time.deltaTime) {
+            for (int i = 0; i < delays.Length; i++) {
+                if (delays[i] < time) {
+                    print("boom");
+                    //Play explosion sound
+                    delays[i] = 999f;
+                }
+            }
+            yield return null;
+        }
+
+        Instantiate(bigExplosion, gameObject.transform.position, Quaternion.identity);
+        
+        sprite.SetActive(false);
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        //play big explosion sound
+        yield return new WaitForSeconds(2);
+        manager.Victory();
+        Destroy(gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(MenuManager))]
 public class GameManager : MonoBehaviour
@@ -11,9 +12,14 @@ public class GameManager : MonoBehaviour
     public LevelMovement currentLevel;
     private MenuManager menus;
     public int gameOverIndex;
+    public int winScreenIndex;
     [HideInInspector]
     public int currentLives;
     public int maxLives;
+    [HideInInspector]
+    public bool delayedWin = false;
+    private bool suicide = false;
+    public TextMeshProUGUI sacrificeMessage;
     private void Awake()
     {
         FindObjects();
@@ -27,23 +33,30 @@ public class GameManager : MonoBehaviour
         currentLevel = FindObjectOfType<LevelMovement>();
         menus = GetComponent<MenuManager>();
     }
-    private void Reset()
+    public void Reset()
     {
         currentLives = maxLives;
         maxPoints = 0;
         RestartLevel();
     }
     public void playerHit() {
-        if (--currentLives > 0)
+        if (delayedWin == false)
         {
-            RestartLevel();
+            if (--currentLives > 0)
+            {
+                RestartLevel();
+            }
+            else
+            {
+                GameOver();
+            }
         }
-        else {
-            GameOver();
-        }
+        suicide = true;
     }
     public void RestartLevel() {
         points = 0;
+        delayedWin = false;
+        suicide = false;
         player.Reset();
         currentLevel.Reset();
         menus.Reset();
@@ -55,6 +68,20 @@ public class GameManager : MonoBehaviour
             maxPoints = points;
         }
         menus.UpdateDisplay(points);
+    }
+    public void Victory() {
+        menus.UpdateDisplay(maxPoints);
+        if (suicide)
+        {
+            print("win by suicide");
+            sacrificeMessage.gameObject.SetActive(true);
+        }
+        else { 
+            sacrificeMessage.gameObject.SetActive(false); 
+        }
+        menus.SetActiveScreen(winScreenIndex);
+        player.enabled = false;
+        player.SetSpriteEnabled(false);
     }
     private void GameOver() {
         menus.UpdateDisplay(maxPoints);

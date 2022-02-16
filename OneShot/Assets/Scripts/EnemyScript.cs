@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class EnemyScript : MonoBehaviour
 {
-    protected Transform target;
+    [HideInInspector]
+    public Transform target;
     public int pointValue;
     public bool disabled;
     

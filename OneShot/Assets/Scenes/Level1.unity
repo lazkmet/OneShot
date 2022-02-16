@@ -4453,7 +4453,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 834013098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 851649616}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: SetScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &834013098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5442,7 +5454,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1001591357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 851649615}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1001591357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8153,11 +8177,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656966150}
   m_CullTransparentMesh: 1
---- !u!1 &1664201083 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5177988699388961509, guid: b859520908da3754b850de67cf6d8497, type: 3}
-  m_PrefabInstance: {fileID: 3391021077192558712}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1667908128
 GameObject:
   m_ObjectHideFlags: 0
@@ -8793,7 +8812,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1831873354}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 851649616}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1831873354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10625,14 +10656,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 277928073, guid: b859520908da3754b850de67cf6d8497, type: 3}
-      propertyPath: deathEffect
-      value: 
-      objectReference: {fileID: 3990344485993317931, guid: 384c8df3d1c74a342bca1b0ff7ef7c11, type: 3}
-    - target: {fileID: 277928073, guid: b859520908da3754b850de67cf6d8497, type: 3}
-      propertyPath: spriteParent
-      value: 
-      objectReference: {fileID: 1664201083}
     - target: {fileID: 1500958307022187903, guid: b859520908da3754b850de67cf6d8497, type: 3}
       propertyPath: meter
       value: 
@@ -10663,11 +10686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3391021077453607154, guid: b859520908da3754b850de67cf6d8497, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3391021077453607154, guid: b859520908da3754b850de67cf6d8497, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.44
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 3391021077453607154, guid: b859520908da3754b850de67cf6d8497, type: 3}
       propertyPath: m_LocalPosition.z

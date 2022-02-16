@@ -18,6 +18,7 @@ public class LoopingBackground : MonoBehaviour
     private Vector2 newPosition;
     private void Awake()
     {
+        
         if (instance != null)
         {
             Destroy(image);
@@ -26,22 +27,30 @@ public class LoopingBackground : MonoBehaviour
         }
         else
         {
+            mainCamera = FindObjectOfType<Camera>();
+            screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
             instance = this;
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(image);
+            LoadChildObjects(image);
         }
+        
     }
     void OnEnable()
     {
         SceneManager.sceneLoaded += FindCamera;
     }
+    //THIS FUNCTION IS VERY BROKEN - FOR SOME REASON DESTROY() FAILS ON CHILD OBJECTS, CAUSING EXPONENTIAL CHILD CREATION
+    //THE CURRENT SOLUTION REQUIRES ALL CAMERAS TO BE EQUALLY SIZED
     public void FindCamera(Scene scene, LoadSceneMode mode) {
         mainCamera = FindObjectOfType<Camera>();
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-        DestroyChildObjects(image);
-        LoadChildObjects(image);
+        //DestroyChildObjects(image);
+        //Debug.Break();
+        //LoadChildObjects(image);
     }
     private void LoadChildObjects(GameObject obj) {
+        obj.GetComponent<SpriteRenderer>().enabled = true;
         float objectHeight = obj.GetComponent<SpriteRenderer>().bounds.size.y - choke;
         int childrenNeeded = (int)Mathf.Ceil(screenBounds.y * 2 / objectHeight);
         GameObject clone = Instantiate(obj) as GameObject;
@@ -52,16 +61,20 @@ public class LoopingBackground : MonoBehaviour
             c.name = obj.name + i;
         }
         Destroy(clone);
-        Destroy(obj.GetComponent<SpriteRenderer>());
+        obj.GetComponent<SpriteRenderer>().enabled = false;
         children = obj.GetComponentsInChildren<Transform>();
     }
-    private void DestroyChildObjects(GameObject obj){
-        foreach (Transform child in children) {
-            if (child != children[0]) {
-                Destroy(child.gameObject);
-            }
-        }
-    }
+    //private void DestroyChildObjects(GameObject obj){
+    //    print("size of children: " + children.Length);
+    //    foreach (Transform child in children) {
+    //        if (child != children[0]) {
+    //            print("destroyed");
+    //            Destroy(child.gameObject);
+    //        }
+    //    }
+    //    children = obj.GetComponentsInChildren<Transform>();
+    //    print("size of children: "+ children.Length);
+    //}
     private void Update()
     {
         for (int i = 1; i < children.Length; i++) {

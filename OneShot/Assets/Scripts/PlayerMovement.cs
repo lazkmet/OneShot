@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-    private void SetSpriteEnabled(bool isEnabled = true)
+    public void SetSpriteEnabled(bool isEnabled = true)
     {
         foreach (SpriteRenderer s in sprites)
         {

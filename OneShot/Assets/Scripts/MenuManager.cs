@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
 {
     public LivesDisplay livesDisplay;
     public TextMeshProUGUI[] pointsDisplays = { };
-    public Canvas[] screens;
+    public Canvas[] screens = { };
     public bool pausable;
     public Canvas pauseScreen;
     //public PlayerMovement player; removing because I don't think it's used?
@@ -65,7 +65,7 @@ public class MenuManager : MonoBehaviour
     }
     public void UpdateDisplay(int points = -1, int lives = -1)
     {
-        if (!(lives < 0)) {
+        if (livesDisplay != null && !(lives < 0)) {
             livesDisplay.UpdateLives(lives);
         }
         if (!(points < 0)) {

@@ -51,7 +51,7 @@ public class LevelMovement : MonoBehaviour
         }
     }
     public void DisableEnemies() {
-        stupidZone.GetComponentInParent<Collider2D>().enabled = false;
+        stupidZone.gameObject.GetComponent<Collider2D>().enabled = false;
         EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
         foreach (EnemyScript e in enemies) {
             e.Disable();
