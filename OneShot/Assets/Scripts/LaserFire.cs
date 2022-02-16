@@ -131,7 +131,7 @@ public class LaserFire : MonoBehaviour
         if (hide)
         {
             chargeHidden = true;
-            //meter.setCooldown(currentMaxCooldown, currentMaxCooldown);
+            meter.setCooldown(currentMaxCooldown, currentMaxCooldown);
         }
         else { //show
             chargeHidden = false;

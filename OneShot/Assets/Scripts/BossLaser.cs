@@ -45,7 +45,7 @@ public class BossLaser : BossAttack
         if (!boss.stunned) {
             laserRenderer.enabled = true;
         }
-        //FindObjectOfType<AudioManager>().Play("Deep Laser Sustain");
+        aManager.Play("Deep Laser Sustain");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime)
         {
             width = Mathf.Lerp(0, laserMaxWidth, timer / currentTime);
@@ -66,8 +66,8 @@ public class BossLaser : BossAttack
         currentTime = 0.18f * duration;
         laserTrigger.enabled = false;
         firing = false;
-        //FindObjectOfType<AudioManager>().Stop("Deep Laser Sustain");
-        //FindObjectOfType<AudioManager>().Play("Deep Laser Decay");
+        aManager.Stop("Deep Laser Sustain");
+        aManager.Play("Deep Laser Decay");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime)
         {
             width = Mathf.Lerp(laserMaxWidth, 0, timer / currentTime);
@@ -87,13 +87,13 @@ public class BossLaser : BossAttack
     public override void Stun(){
         laserRenderer.enabled = false;
         laserTrigger.enabled = false;
-        //FindObjectOfType<AudioManager>().Stop("Deep Laser Sustain");
+        aManager.Stop("Deep Laser Sustain");
     }
     public override void Unstun() {
         if (firing) {
             laserRenderer.enabled = true;
             laserTrigger.enabled = true;
-            //FindObjectOfType<AudioManager>().Play("Deep Laser Sustain");
+            aManager.Play("Deep Laser Sustain");
         }
     }
     private void OnTriggerStay2D(Collider2D other)

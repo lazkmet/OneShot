@@ -2523,7 +2523,19 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lots of help from all over because I'm bad at using Unity
+  m_text: 'Game by Lazarus Kmet
+
+    Looping Background - Press Start: Scrolling
+    Background in Unity (https://www.youtube.com/watch?v=3UO-1suMbNc)
+
+    Enemy
+    Pathing - Alexander Sotov: How to make a 2D Sprite follow a Bezier Curve (https://youtu.be/11ofnLOE8pw)
+
+    Sound
+    Scripting - Brackeys: Introduction to SOUND in Unity (https://www.youtube.com/watch?v=6OT43pvUyfY)
+
+    GUI
+    - Space GUI construction kit by Rawdanitsu'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2218ab82ccd8e794ead58796d71d0e12, type: 2}
   m_sharedMaterial: {fileID: 271135314461393524, guid: 2218ab82ccd8e794ead58796d71d0e12, type: 2}
@@ -2550,8 +2562,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2564,7 +2576,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
+  m_paragraphSpacing: 30
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
@@ -3130,11 +3142,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press buttons
+  m_text: 'WASD - Move Ship
 
-    Profit
 
-    Do not press X'
+    Mouse - Fire Laser
+
+
+    Do not press X under any
+    circumstances'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2218ab82ccd8e794ead58796d71d0e12, type: 2}
   m_sharedMaterial: {fileID: 271135314461393524, guid: 2218ab82ccd8e794ead58796d71d0e12, type: 2}
@@ -3169,7 +3184,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

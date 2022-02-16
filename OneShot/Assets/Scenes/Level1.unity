@@ -3118,6 +3118,42 @@ MonoBehaviour:
     loop: 0
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
+  - name: Deep Laser Decay
+    clip: {fileID: 8300000, guid: 7690b034ddff33141aefd0eb965f1980, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Deep Laser Sustain
+    clip: {fileID: 8300000, guid: b0e6bf58bea11be4ba26c44e1c8dcdc0, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: ca8e939b43953b2439c90db20c8752ba, type: 3}
+    volume: 0.3
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: BigExplosion
+    clip: {fileID: 8300000, guid: d1f2c1779b49a884aacf245b6041fbe7, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
 --- !u!1 &511674984
 GameObject:
   m_ObjectHideFlags: 0
@@ -5150,7 +5186,7 @@ MonoBehaviour:
   player: {fileID: 1324962495}
   currentLevel: {fileID: 1740615110}
   gameOverIndex: 1
-  winScreenIndex: 0
+  winScreenIndex: 2
   currentLives: 0
   maxLives: 4
   delayedWin: 0

@@ -192,8 +192,7 @@ public class BossEnemy : EnemyScript
         for (float time = 0; time < 2.6; time += Time.deltaTime) {
             for (int i = 0; i < delays.Length; i++) {
                 if (delays[i] < time) {
-                    print("boom");
-                    //Play explosion sound
+                    soundManager.Play("Explosion");
                     delays[i] = 999f;
                 }
             }
@@ -204,7 +203,7 @@ public class BossEnemy : EnemyScript
         manager.AddPoints(pointValue);
         sprite.SetActive(false);
         gameObject.GetComponent<Collider2D>().enabled = false;
-        //play big explosion sound
+        soundManager.Play("BigExplosion");
         yield return new WaitForSeconds(2);
         manager.Victory();
         Destroy(gameObject);

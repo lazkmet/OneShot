@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy")) {
             collision.gameObject.GetComponent<EnemyScript>().Hit();
             Instantiate(deathEffect, collision.gameObject.transform.position, Quaternion.identity);
+            FindObjectOfType<AudioManager>().Play("Explosion");
             PlayerDeath();
         }
     }
@@ -119,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
         manager.currentLevel.DisableEnemies();
         manager.currentLevel.speedMultiplier = 0.25f;
         GameObject splode = Instantiate(deathEffect, gameObject.transform);
+        FindObjectOfType<AudioManager>().Play("Explosion");
         yield return new WaitUntil(() => splode == null);
         manager.playerHit();
     }
