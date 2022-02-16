@@ -44,8 +44,8 @@ public class BossLaser : BossAttack
         float width;
         if (!boss.stunned) {
             laserRenderer.enabled = true;
+            aManager.Play("Deep Laser Sustain");
         }
-        aManager.Play("Deep Laser Sustain");
         for (float timer = 0; timer < currentTime; timer += Time.deltaTime)
         {
             width = Mathf.Lerp(0, laserMaxWidth, timer / currentTime);

@@ -59,11 +59,11 @@ public class GameManager : MonoBehaviour
     public void RestartLevel() {
         points = 0;
         delayedWin = false;
-        suicide = false;
         player.Reset();
         currentLevel.Reset();
         menus.Reset();
         menus.UpdateDisplay(points, currentLives);
+        suicide = false;
     }
     public void AddPoints(int amount) {
         points += amount;
@@ -75,14 +75,15 @@ public class GameManager : MonoBehaviour
     public void Victory() {
         //mouse.Hide();
         menus.UpdateDisplay(maxPoints);
+        menus.SetActiveScreen(winScreenIndex);
         if (suicide)
         {
             sacrificeMessage.gameObject.SetActive(true);
         }
-        else { 
-            sacrificeMessage.gameObject.SetActive(false); 
+        else
+        {
+            sacrificeMessage.gameObject.SetActive(false);
         }
-        menus.SetActiveScreen(winScreenIndex);
         player.enabled = false;
         player.SetSpriteEnabled(false);
     }
